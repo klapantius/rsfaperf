@@ -1,26 +1,26 @@
-const { exec } = require('child_process');
 const readline = require('readline');
 const rl = readline.createInterface({ input: process.stdin });
-const patterns = ['Torus', 'Cube', 'Foundations', 'Core', 'DataStorage', 'Workflow', 'Dicom', 'LCO', 'Imaging', 'CIP', 'ITF', 'Organizer', 'Service'];
-const timer = require('timers');
+const schedule = require('node-schedule');
+const log = require('./log.js');
+const analyze = require('./durationanalyze.js');
+const configuration = require('./configuration.js');
 
-function startScan(pattern, length) {
-    console.log("starting scan");
-    exec(
-        'rsfainstanalyzer -sd -path:\\\\build-sy.healthcare.siemens.com\\DropNative$\\*Imaging*main*GC* -days:1',
-        (error, stdout, stderr) => {
-            if (error) {
-                console.error("error happened: " + error);
-                console.log(stderr);
-                return;
-            }
-            console.info('succeeeded: ', stdout);
-        });
+function Store(record) {
+    
 }
+
+var sch = new Date(Date.now() + 5000);
+var timespec =  new String(sch.getSeconds() + ' ' + sch.getMinutes() + ' ' + sch.getHours() + ' * * *');
+// var timespec = '0 * * * *';
+var job = schedule.scheduleJob(timespec, function () {
+    log.PrintLog('hello');
+    analyze.CollectDurations(configuration.buildPatterns, (results) => {
+        log.PrintLog("Following results collected:");
+        console.group;
+        results.forEach(r => { console.log(JSON.stringify(r)); });
+        console.groupEnd;
+    });
+});
 
 rl.on('line', (line) => { process.exit(0); });
 rl.prompt();
-
-startScan('', 0);
-
-timer.setInterval(() => { console.log(new Date().toLocaleString()); }, 1000);
