@@ -4,7 +4,11 @@
   "description": "rsfa perfomance measurment and visualization",
   "main": "rsfaperf.js",
   "dependencies": {
+<<<<<<< HEAD
     "node-schedule": "^1.2.3"
+=======
+    "rest-flat-file-db": "^1.2.0"
+>>>>>>> a085a1ff491add7a8c4a11b6b1d7fc33de9450af
   },
   "devDependencies": {},
   "scripts": {
