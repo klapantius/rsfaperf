@@ -1,4 +1,4 @@
-export const buildPatterns = [
+const buildPatterns = [
     '*Torus.Main.GC*',
     '*Cube.Main.GC*',
     '*Foundations.Main.*GC*',
@@ -17,4 +17,6 @@ export const buildPatterns = [
     '*AiM.Main.*GC*',
 ];
 
-export const dropfolder = '\\\\build-sy.healthcare.siemens.com\\DropNative$\\';
+const dropfolder = '\\\\build-sy.healthcare.siemens.com\\DropNative$\\';
+
+module.exports = { buildPatterns, dropfolder };
