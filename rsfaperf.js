@@ -4,12 +4,13 @@ const schedule = require('node-schedule');
 const log = require('./log.js');
 const analyze = require('./durationanalyze.js');
 const configuration = require('./configuration.js');
+const webui = require('./webui.js');
 
 function Store(record) {
     
 }
 
-var sch = new Date(Date.now() + 5000);
+var sch = new Date(Date.now() + 1000);
 var timespec =  new String(sch.getSeconds() + ' ' + sch.getMinutes() + ' ' + sch.getHours() + ' * * *');
 // var timespec = '0 * * * *';
 var job = schedule.scheduleJob(timespec, function () {
