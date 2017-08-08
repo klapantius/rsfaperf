@@ -21,4 +21,6 @@ const dropfolder = '\\\\build-sy.healthcare.siemens.com\\DropNative$\\';
 
 const webuiPort = 3000;
 
-module.exports = { buildPatterns, dropfolder, webuiPort };
+const dbpath = '';
+
+module.exports = { buildPatterns, dropfolder, webuiPort, dbpath };
