@@ -21,6 +21,6 @@ const dropfolder = '\\\\build-sy.healthcare.siemens.com\\DropNative$\\';
 
 const webuiPort = 3000;
 
-const dbpath = '';
+const dbpath = '\\\\erlh1fea\\collaboration$\\juba\\rsfaperf.db';
 
 module.exports = { buildPatterns, dropfolder, webuiPort, dbpath };

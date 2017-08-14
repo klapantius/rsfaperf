@@ -5,10 +5,7 @@ const log = require('./log.js');
 const analyze = require('./durationanalyze.js');
 const configuration = require('./configuration.js');
 const webui = require('./webui.js');
-
-function Store(record) {
-    
-}
+const storage = require('./storage.js');
 
 var sch = new Date(Date.now() + 1000);
 var timespec =  new String(sch.getSeconds() + ' ' + sch.getMinutes() + ' ' + sch.getHours() + ' * * *');
@@ -18,7 +15,7 @@ var job = schedule.scheduleJob(timespec, function () {
     analyze.CollectDurations(configuration.buildPatterns, (results) => {
         log.PrintLog("Following results collected:");
         console.group;
-        results.forEach(r => { console.log(JSON.stringify(r)); });
+        results.forEach(r => { console.log(JSON.stringify(r)); storage.Save(r); });
         console.groupEnd;
     });
 });
