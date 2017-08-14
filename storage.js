@@ -4,17 +4,19 @@ const KeySeparator = '#';
 
 var db = flatdb.sync(configuration.dbpath);
 
+function MainKey(pattern){
+    return pattern.replace(/\*/g, "");
+}
+
 function KeyOf(record) {
-    var result = record.pattern.replace(/\*/g, "") + KeySeparator + record.timestamp;
+    var result = MainKey(record.pattern) + KeySeparator + record.timestamp;
     return result;
 }
 
 function Save(record) {
     if (!record) return;
-    var key = KeyOf(record);
-    db.put(key, record);
-    var mainkey = key.substr(0, key.charAt(KeySeparator));
-    db.put(mainkey, record);
+    db.put(KeyOf(record), record);
+    db.put(MainKey(record.pattern), record);
 }
 
 module.exports = { KeySeparator, Save };
