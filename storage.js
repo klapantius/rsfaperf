@@ -10,8 +10,11 @@ function KeyOf(record) {
 }
 
 function Save(record) {
+    if (!record) return;
     var key = KeyOf(record);
     db.put(key, record);
+    var mainkey = key.substr(0, key.charAt(KeySeparator));
+    db.put(mainkey, record);
 }
 
 module.exports = { KeySeparator, Save };
