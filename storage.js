@@ -4,7 +4,7 @@ const KeySeparator = '#';
 
 var db = flatdb.sync(configuration.dbpath);
 
-function MainKey(pattern){
+function MainKey(pattern) {
     return pattern.replace(/\*/g, "");
 }
 
@@ -19,4 +19,13 @@ function Save(record) {
     db.put(MainKey(record.pattern), record);
 }
 
-module.exports = { KeySeparator, Save };
+function GetLastModuleStatus() {
+    var result = [];
+    configuration.buildPatterns.forEach(pattern => {
+        var key = MainKey(pattern);
+        result[key]=db.get(key);
+    });
+    return result;
+}
+
+module.exports = { KeySeparator, Save, GetLastModuleStatus };
