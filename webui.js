@@ -1,7 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var { GetLastModuleStatus } = require('./storage.js');
+var { GetLastModuleStatus, GetHistoricalData } = require('./storage.js');
 
 app.get('/', function(req, res){
     var html = `
@@ -19,6 +19,9 @@ app.get('/', function(req, res){
             <tr>
                 <td>` + key + `</td>
                 <td>` + status[key].avgtxt + `</td>
+                <td>`;
+        html += GetHistoricalData(key).join();
+        html += `</td>
             </tr>
         `;
     }
@@ -30,8 +33,7 @@ app.get('/', function(req, res){
     res.send(html);
 });
 
-console.info("http://localhost:3000")
 
 http.listen(3000, function(){
-  console.log('listening on *:3000');
+    console.info("http://localhost:3000")
 });

@@ -1,3 +1,4 @@
+var LINQ = require('node-linq').LINQ;
 const configuration = require('./configuration.js')
 const flatdb = require('flat-file-db');
 const KeySeparator = '#';
@@ -28,4 +29,8 @@ function GetLastModuleStatus() {
     return result;
 }
 
-module.exports = { KeySeparator, Save, GetLastModuleStatus };
+function GetHistoricalData(pattern) {
+    return new LINQ(db.keys()).Where(k => k.startsWith(pattern)).ToArray();
+}
+
+module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData };

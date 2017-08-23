@@ -7,6 +7,7 @@
     "express": "^4.15.4",
     "flat-file-db": "^1.0.0",
     "http": "0.0.0",
+    "node-linq": "0.0.5",
     "node-schedule": "^1.2.3",
     "path": "^0.12.7",
     "socket.io": "^2.0.3"
