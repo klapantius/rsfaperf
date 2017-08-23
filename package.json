@@ -4,9 +4,12 @@
   "description": "rsfa perfomance measurment and visualization",
   "main": "rsfaperf.js",
   "dependencies": {
-    "koa-router": "^7.2.1",
+    "express": "^4.15.4",
+    "flat-file-db": "^1.0.0",
+    "http": "0.0.0",
     "node-schedule": "^1.2.3",
-    "rest-flat-file-db": "^1.2.0"
+    "path": "^0.12.7",
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {},
   "scripts": {
