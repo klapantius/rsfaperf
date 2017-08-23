@@ -2,8 +2,9 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var { GetLastModuleStatus, GetHistoricalData } = require('./storage.js');
+var LINQ = require('node-linq').LINQ;
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
     var html = `
     <html>
     <body>
@@ -20,7 +21,7 @@ app.get('/', function(req, res){
                 <td>` + key + `</td>
                 <td>` + status[key].avgtxt + `</td>
                 <td>`;
-        html += GetHistoricalData(key).join();
+        html += new LINQ(GetHistoricalData(key)).Select(r => r.avgraw).ToArray().join();
         html += `</td>
             </tr>
         `;
@@ -34,6 +35,6 @@ app.get('/', function(req, res){
 });
 
 
-http.listen(3000, function(){
+http.listen(3000, function () {
     console.info("http://localhost:3000")
 });

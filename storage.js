@@ -30,7 +30,7 @@ function GetLastModuleStatus() {
 }
 
 function GetHistoricalData(pattern) {
-    return new LINQ(db.keys()).Where(k => k.startsWith(pattern)).ToArray();
+    return new LINQ(db.keys()).Where(k => k.startsWith(pattern)).Select(k => db.get(k)).ToArray();
 }
 
 module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData };
