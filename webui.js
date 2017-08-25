@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
                 ['Time'`;
     var last = [];
     for (var key in status) {
-        html += ",'" + key + "'";
+        html += `,'${key}'`;
         last[key] = 0;
     }
     html += `]`;
@@ -33,7 +33,7 @@ app.get('/', function (req, res) {
             if (record) {
                 if (first) {
                     first = false;
-                    row.push(`'${record.timestr ? record.timestr : time}'`);
+                    row.push(`'${record.timestr ? record.timestr : ""}'`);
                 }
                 var val = record && record.avgraw ? record.avgraw : last[mainkey];
                 row.push(val);
@@ -41,7 +41,7 @@ app.get('/', function (req, res) {
             }
         }
         html += `,
-                [` + row + `]`;
+                [${row}]`;
     }
     html += `
             ]);
@@ -68,8 +68,8 @@ app.get('/', function (req, res) {
     for (var key in status) {
         html += `
             <tr>
-                <td>` + key + `</td>
-                <td>` + status[key].avgtxt + `</td>
+                <td>${key}</td>
+                <td>${status[key].avgtxt}</td>
             </tr>
         `;
     }
