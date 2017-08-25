@@ -27,12 +27,18 @@ app.get('/', function (req, res) {
     html += `]`;
     for (var time in db.GetAllTimePoints()) {
         var row = [];
-        row.push("'" + time + "'");
+        var first = true;
         for (mainkey in status) {
             var record = db.GetRecord(mainkey + db.KeySeparator + time);
-            var val = record && record.avgraw ? record.avgraw : last[mainkey];
-            row.push(val);
-            last[mainkey] = val;
+            if (record) {
+                if (first) {
+                    first = false;
+                    row.push(`'${record.timestr ? record.timestr : time}'`);
+                }
+                var val = record && record.avgraw ? record.avgraw : last[mainkey];
+                row.push(val);
+                last[mainkey] = val;
+            }
         }
         html += `,
                 [` + row + `]`;

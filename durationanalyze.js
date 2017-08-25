@@ -22,10 +22,15 @@ function CollectDurations(patterns, callback) {
     log.PrintLog('starting a new rsfa duration analyze');
     var results = [];
     var timestamp = Date.now();
+    var d = new Date();
+    var pad = function (value) { return ("00" + value).slice(-2); }
     Promise.all(patterns.map(p =>
         new Promise(resolve => {
             DurationAnalyze(p, 1, (r) => {
-                resolve(Object.assign({}, r, { pattern: p, timestamp }));
+                resolve(Object.assign({}, r, {
+                    pattern: p,
+                    timestamp,
+                    timestr: `${d.getFullYear() % 1000}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`}));
             });
         })
     )).then(callback);
