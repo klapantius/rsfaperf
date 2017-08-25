@@ -17,7 +17,7 @@ console.info();
 var sch = new Date(Date.now() + 1000);
 //var timespec = new String(sch.getSeconds() + ' ' + sch.getMinutes() + ' ' + sch.getHours() + ' * * *'); // in 10 seconds
 //var timespec = '0 * * * *'; // hourly
-var timespec = '50 10 * * *'; // daily
+var timespec = '17 17 * * *'; // daily
 var job = schedule.scheduleJob(timespec, function () {
     log.PrintLog('hello');
     analyze.CollectDurations(configuration.buildPatterns, (results) => {

@@ -24,7 +24,7 @@ function GetLastModuleStatus() {
     var result = [];
     configuration.buildPatterns.forEach(pattern => {
         var key = MainKey(pattern);
-        result[key]=db.get(key);
+        result[key] = db.get(key);
     });
     return result;
 }
@@ -33,4 +33,21 @@ function GetHistoricalData(pattern) {
     return new LINQ(db.keys()).Where(k => k.startsWith(pattern)).Select(k => db.get(k)).ToArray();
 }
 
-module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData };
+function GetRecord(key) {
+    if (!db.has(key)) return undefined;
+    return db.get(key);
+}
+
+function GetAllTimePoints() {
+    return new LINQ(db.keys())
+        .Where(k => k.includes(KeySeparator))
+        .OrderBy(k => k.substring(k.indexOf(KeySeparator) + 1))
+        .GroupBy(k => k.substring(k.indexOf(KeySeparator) + 1));
+}
+
+function GetRecord(key) {
+    if (!db.has(key)) return undefined;
+    return db.get(key);
+}
+
+module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData, GetAllTimePoints, GetRecord };
