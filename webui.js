@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var db = require('./storage.js');
-var LINQ = require('node-linq').LINQ;
+//var LINQ = require('node-linq').LINQ;
 
 app.get('/', function (req, res) {
 
