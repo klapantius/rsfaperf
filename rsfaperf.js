@@ -23,7 +23,15 @@ var job = schedule.scheduleJob(timespec, function () {
     analyze.CollectDurations(configuration.buildPatterns, (results) => {
         log.PrintLog("Following results collected:");
         console.group;
-        results.forEach(r => { console.log(JSON.stringify(r)); storage.Save(r); });
+        results.forEach(r => { 
+            if (r.avgtxt) {
+                console.log(JSON.stringify(r)); 
+                storage.Save(r);
+            }
+            else {
+                console.log(`${r.pattern} has no new relevant data`);
+            }
+        });
         console.groupEnd;
     });
 });
