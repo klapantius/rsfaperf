@@ -33,6 +33,13 @@ function GetHistoricalData(pattern) {
     return new LINQ(db.keys()).Where(k => k.startsWith(pattern)).Select(k => db.get(k)).ToArray();
 }
 
+function DumpHistoricalData(pattern) {
+    var data = GetHistoricalData(pattern);
+    data.forEach(d => {
+        console.info(JSON.stringify(d));
+    });
+}
+
 function GetRecord(key) {
     if (!db.has(key)) return undefined;
     return db.get(key);
@@ -50,4 +57,4 @@ function GetRecord(key) {
     return db.get(key);
 }
 
-module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData, GetAllTimePoints, GetRecord };
+module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData, GetAllTimePoints, GetRecord, DumpHistoricalData };
