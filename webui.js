@@ -29,15 +29,16 @@ app.get('/', function (req, res) {
         var first = true;
         for (mainkey in status) {
             var record = db.GetRecord(mainkey + db.KeySeparator + time);
+            var value = last[mainkey];
             if (record) {
                 if (first) {
                     first = false;
                     row.push(`'${record.timestr ? record.timestr : ""}'`);
                 }
-                var val = record && record.avgraw ? record.avgraw : last[mainkey];
-                row.push(val);
-                last[mainkey] = val;
+                if (record.avgraw && !(record.avgraw === "")) value = record.avgraw;
             }
+            row.push(value);
+            last[mainkey] = value;
         }
         html += `,
                 [${row}]`;
