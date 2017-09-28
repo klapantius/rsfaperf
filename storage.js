@@ -57,4 +57,40 @@ function GetRecord(key) {
     return db.get(key);
 }
 
-module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData, GetAllTimePoints, GetRecord, DumpHistoricalData };
+function SplitDatabase() {
+    console.info('SplitDatabase started...')
+    var key2tgt = (key) => {
+        var name = key.includes(KeySeparator) ? key.substring(0, key.indexOf(KeySeparator)) : key;
+        var item;
+        for (var idx = 0; idx < configuration.buildPatterns2.length; idx++) {
+            if (configuration.buildPatterns2[idx].mainkey === name) {
+                item = idx;
+                break;
+            }
+        }
+        return item < configuration.buildPatterns2.length ?
+            configuration.buildPatterns2[item] :
+            null;
+    }
+    // Add mainkeys to the configuration in order to work efficienter.
+    // Create database files too and add them to the configuration. as well
+    configuration.buildPatterns2.forEach(i => {
+        i.mainkey = MainKey(i.pattern);
+        i.dbname = `${configuration.dbfolder}\\${i.name}.rsfa.db`;
+        console.log(`${i.pattern} => ${i.mainkey} / ${configuration.dbfolder}\\${i.name}.rsfa.db`);
+    });
+    db.keys().forEach(srckey => {
+        var record = db.get(srckey);
+        var idx = srckey.indexOf(KeySeparator);
+        var tgtkey = idx > 0 ? srckey.substring(idx + 1) : srckey;
+        var target = key2tgt(srckey);
+        if (target) {
+            console.log(`${srckey} => ${tgtkey} will be written into ${target.dbname}`)
+            var targetdb = flatdb.sync(target.dbname);
+            targetdb.put(tgtkey, record);
+        }
+    });
+    console.info('SplitDatabase finished.')
+}
+
+module.exports = { KeySeparator, Save, GetLastModuleStatus, GetHistoricalData, GetAllTimePoints, GetRecord, DumpHistoricalData, SplitDatabase };

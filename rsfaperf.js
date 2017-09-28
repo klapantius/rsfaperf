@@ -25,6 +25,12 @@ var commands = [
         todo: function (params) {
             Help(params);
         }
+    },
+    {
+        name: "split",
+        todo: function (params) {
+            storage.SplitDatabase(params);
+        }
     }
 ];
 
