@@ -31,6 +31,12 @@ var commands = [
         todo: function (params) {
             storage.SplitDatabase(params);
         }
+    },
+    {
+        name: "scan",
+        todo: function (params) {
+            Scan();
+        }
     }
 ];
 
@@ -61,8 +67,9 @@ var sch = new Date(Date.now() + 1000);
 //var timespec = new String(sch.getSeconds() + ' ' + sch.getMinutes() + ' ' + sch.getHours() + ' * * *'); // in 10 seconds
 //var timespec = '0 * * * *'; // hourly
 var timespec = '17 17 * * *'; // daily
-var job = schedule.scheduleJob(timespec, function () {
-    log.PrintLog('hello');
+var job = schedule.scheduleJob(timespec, Scan);
+
+function Scan() {
     analyze.CollectDurations(configuration.buildPatterns, (results) => {
         log.PrintLog("Following results collected:");
         console.group;
@@ -77,7 +84,7 @@ var job = schedule.scheduleJob(timespec, function () {
         });
         console.groupEnd;
     });
-});
+}
 
 function Help(params) {
     if (params) {
