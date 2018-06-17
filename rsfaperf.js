@@ -6,6 +6,7 @@ const analyze = require('./durationanalyze.js');
 const configuration = require('./configuration.js');
 const webui = require('./webui.js');
 const storage = require('./storage.js');
+const { UploadDataToMongoDB } = require('./mongo');
 
 var commands = [
     {
@@ -37,6 +38,12 @@ var commands = [
         todo: function (params) {
             Scan();
         }
+    },
+    {
+        name: "mongo",
+        todo:  function (params) {
+            UploadDataToMongoDB(params);
+        }
     }
 ];
 
@@ -46,11 +53,11 @@ rl.on('line', (line) => {
     if (cmd) {
         var params = line.substring(cmd.name.length + 1);
         cmd.todo(params);
-        return;
     }
     else {
         console.info("command could not be interpreted");
     }
+    console.info('rsfaperf > ');
 });
 
 Help();
@@ -62,6 +69,7 @@ for (var key in status) {
     console.info("\t", key + ": ", status[key].avgtxt);
 }
 console.info();
+console.info('rsfaperf > ');
 
 var sch = new Date(Date.now() + 1000);
 //var timespec = new String(sch.getSeconds() + ' ' + sch.getMinutes() + ' ' + sch.getHours() + ' * * *'); // in 10 seconds
